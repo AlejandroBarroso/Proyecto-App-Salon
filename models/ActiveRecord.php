@@ -140,7 +140,9 @@ class ActiveRecord {
         $query .= join(', ', array_keys($atributos));
         $query .= " ) VALUES ('"; // saque el espacio
         $query .= join("', '", array_values($atributos));
-        $query .= "') "; // saque el espacio
+        $query .= "') ";
+
+        // return json_encode(['query' => $query] ); // debuguea las peticiones query
 
         // Resultado de la consulta
         $resultado = self::$db->query($query);
