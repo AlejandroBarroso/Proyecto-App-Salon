@@ -12,18 +12,25 @@
                 type="date"
                 id="fecha"
                 name="fecha"
+                value="<?php echo $fecha; ?>"
             />            
         </div>
     </form>
 </div>
 
+<?php
+    if(count($citas) === 0) {
+        echo "<h2>No hay citas en esta fecha</h2>";
+    }
+?>
 
-<div class="citas-admin">
+<div id="citas-admin">
     <ul class="citas">
     <?php
         $idCita = 0;
         foreach( $citas as $key => $cita) {    
             if($idCita !== $cita->id) {
+                $total = 0; 
     ?>
 
     <li>
@@ -36,7 +43,9 @@
         <h3>Servicios</h3>
     <?php 
         $idCita = $cita->id;
-    } // Fin de IF ?>
+    } // Fin de IF 
+        $total += $cita->precio;
+    ?>
             <p class="servicio"><?php echo $cita->servicio . ' ' .'$'.$cita->precio; ?></p>
 
 
@@ -44,13 +53,19 @@
         $actual = $cita->id;
         $proximo = $citas[$key + 1]->id ?? 0;
 
-        echo "<hr>";
-        echo $actual;
-        echo "<hr>";
-        echo $proximo;
+        if(esUltimo($actual, $proximo)) { ?>
+           <p class="total">Total: <span>$<?php echo $total; ?></span></p>
 
-    ?>
+           <form action="/api/eliminar" method="POST">
+            <input type="hidden" name="id" value="<?php echo $cita->id; ?>">
+            <input type="submit" class="boton-eliminar" value="eliminar">
+           </form>
+    <?php }
 
-    <?php } // Fin de foreach ?>
+        } // Fin de foreach ?>
     </ul>
 </div>
+
+<?php
+    $script = "<script src='build/js/buscador.js'></script>"
+?>
