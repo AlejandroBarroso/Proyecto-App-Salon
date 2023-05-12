@@ -4,6 +4,7 @@
 
 <?php
 include_once __DIR__ . '/../template/barra.php';
+include_once __DIR__ . '/../template/alertas.php';
 ?>
 
 <form action="/servicios/crear" method="POST" class="formulario ">
